@@ -13,11 +13,11 @@ This task monitor is the result of collaborative effort. The following individua
 
 [@jcaviness1](https://github.com/jcaviness1)(Jayda C.)
 
-[@NHUNGN](https://github.com/NHUNGN)(Nhung.N)
+[@NHUNGN](https://github.com/NHUNGN)(Nhung N.)
 
 [@shriyatkondur](https://github.com/shriyatkondur) (Shriya K.)
 
-[@ThaiTea234](https://github.com/ThaiTea234) (Thais.R)
+[@ThaiTea234](https://github.com/ThaiTea234) (Thais R.)
 
 [@sarvats](https://github.com/sarvats)(Sarthak V.)
 
