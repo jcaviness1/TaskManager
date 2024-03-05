@@ -6,7 +6,7 @@ Link to wireframe: https://app.moqups.com/1puGHp4tnOQPEyZcGCCkEaWryKJB2kcU/view/
 
 Link to pdf with test scenarios: https://github.com/jcaviness1/TaskManager/blob/291e976af88520f2a05109055baefcaba6615721/Wireframes%20and%20Test%20Scenarios_Group%206.pdf
 
-Link to pdf with Use Cases and Sequence Diagrams: 
+Link to pdf with use cases and sequence diagrams: https://github.com/jcaviness1/catcommandos/blob/baa9809aa8dd9dd92b48ee00441ad07489c1d6ef/Use%20Cases%20and%20Sequence%20Diagrams_Group%206.pdf
 
 
 # Contributors
