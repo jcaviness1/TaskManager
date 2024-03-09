@@ -8,6 +8,8 @@ Link to pdf with test scenarios: https://github.com/jcaviness1/TaskManager/blob/
 
 Link to pdf with use cases and sequence diagrams: https://github.com/jcaviness1/catcommandos/blob/a683ec41c2d082df20f9f2cb29bc71bbf777f73f/Use%20Cases%20and%20Sequence%20Diagrams_Group%206%20(1).pdf
 
+Link to test cases: https://github.com/jcaviness1/catcommandos/blob/28bca56445776b35291f880b5606115a23ae51e1/Test%20Cases_Group%206.pdf
+
 
 
 # Contributors
