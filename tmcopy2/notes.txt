@@ -1,0 +1,26 @@
+To run:
+
+Download & Install XAMPP
+Use any text editor of your choice that can config php
+rn, running locally so move this project to a root directory
+Open XAMPP and run Apache and MySQL serv
+DB Options for local run:
+1. Open myPHPadmin and create a database or import task_manager.sql which should import the entire database 
+Make changes to constants.php file if your myPHPadmin settings are different and if you have a different database id and password
+Right now it is setup for a new person downloading myphpadmin so make changes to the variables accordingly, 
+
+<?php 
+//Start Session
+session_start();
+
+//Create Constants to save Database Credentials
+define('LOCALHOST', 'localhost');
+define('DB_USERNAME', 'root'); //Your Database username instead of 'root'
+define('DB_PASSWORD', ''); //Your Database Password instead of null/empty
+define('DB_NAME', 'task_manager'); //Your Database Name if it's not 'task_manager'
+
+define('SITEURL', 'http://localhost/task-manager/'); //Update the home URL of the project if you have changed port number or it's live on server
+
+?>
+
+Use the SITEURL to run it in browser
