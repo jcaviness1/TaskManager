@@ -6,6 +6,7 @@
     <head>
         <title>To Do List</title>
         <link rel="stylesheet" href="<?php echo SITEURL; ?>style.css" />
+        
     </head>
     
     <body>
