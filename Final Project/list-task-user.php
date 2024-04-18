@@ -1,0 +1,181 @@
+<?php 
+session_start(); // Start the session
+
+include('config.php');
+
+//Get the listid from URL
+if(isset($_GET['listid'])) {
+    $listid_url = $_GET['listid'];
+} else {
+    // Handle the case where listid is not provided in the URL
+    echo "List ID is not provided.";
+    exit; // Stop further execution
+}
+
+// Connect to the database
+$conn = mysqli_connect(LOCALHOST, DBUSER, DBPASS, DB_NAME) or die("Couldn't connect");
+
+// Get username from session
+$username = $_SESSION['username'];
+
+// Query to get isAdmin status from the database
+$sql_admin = "SELECT admin FROM users WHERE username='$username'";
+$result_admin = mysqli_query($conn, $sql_admin);
+
+// Check if query executed successfully
+if($result_admin) {
+    // Fetch the admin status
+    $row_admin = mysqli_fetch_assoc($result_admin);
+    $isAdmin = $row_admin['admin'];
+}
+
+if ($isAdmin == 1) {
+    define("USER_SUFFIX", "");
+} else {
+    define("USER_SUFFIX", "-user");
+}
+if(isset($_POST['logout'])) {
+    // Unset all session variables
+    $_SESSION = array();
+    // Destroy the session
+    session_destroy();
+    // Redirect to the index page
+    header("Location: index.php");
+    exit;
+}
+
+?>
+
+<html>
+<head>
+    <title>To Do List</title>
+    <link rel="stylesheet" href="<?php echo SITEURL; ?>style.css" />
+</head>
+
+<body>
+
+<div class="wrapper">
+
+    <h1>To Do List</h1>
+	 <!-- Logout Button -->
+    <form method="post" style="text-align: right;">
+        <button type="submit" name="logout">Logout</button>
+    </form>
+    
+
+    <!-- start menu -->
+    <div class="menu">
+
+        <a href="<?php echo SITEURL; ?>">Home</a>
+
+        <?php 
+
+        // Step 1: Get User ID
+        $sql_user_id = "SELECT userid FROM users WHERE username = '$username'";
+        $result_user_id = mysqli_query($conn, $sql_user_id);
+        $row_user_id = mysqli_fetch_assoc($result_user_id);
+        $user_id = $row_user_id['userid'];
+
+        // Step 2: Get List IDs and Names
+        $sql_lists = "SELECT DISTINCT l.listid, l.listname 
+                      FROM listtbls l
+                      INNER JOIN tasktbl t ON l.listid = t.listid
+                      INNER JOIN usr_task_rel utr ON t.task_id = utr.task
+                      WHERE utr.user = $user_id";
+        $result_lists = mysqli_query($conn, $sql_lists);
+
+        if($result_lists && mysqli_num_rows($result_lists) > 0) {
+            // Display the lists in the menu
+            while($row_lists = mysqli_fetch_assoc($result_lists)) {
+                $listid = $row_lists['listid'];
+                $listname = $row_lists['listname'];
+                ?>
+                
+                <a href="<?php echo SITEURL; ?>list-task<?php echo USER_SUFFIX; ?>.php?listid=<?php echo $listid; ?>"><?php echo $listname; ?></a>
+                
+                <?php
+            }
+        } else {
+            echo "No lists available for this user.";
+        }
+        ?>
+
+        <a href="<?php echo SITEURL; ?>manage-list.php">Manage Lists</a>
+    </div>
+    <!-- end menu -->
+
+    <div class="all-task">
+
+        <a class="btn-primary" href="<?php echo SITEURL; ?>add-task<?php echo USER_SUFFIX; ?>.php">Add Task</a>
+
+        <table class="tbl-full">
+            <tr>
+                <th>S.N.</th>
+                <th>Task Name</th>
+                <th>Priority</th>
+                <th>Deadline</th>
+                <th>Actions</th>
+            </tr>
+
+            <?php 
+
+            // SQL QUERY to display tasks by list selected
+            //$sql = "SELECT * FROM tasktbl WHERE listid=$listid_url";
+            //$res = mysqli_query($conn, $sql);
+			
+			// SQL QUERY to display tasks by list selected
+			$sql = "SELECT t.* 
+					FROM tasktbl t 
+					INNER JOIN usr_task_rel utr ON t.task_id = utr.task 
+					WHERE t.listid = $listid_url AND utr.user = $user_id";
+			$res = mysqli_query($conn, $sql);
+
+
+            if($res) {
+                // row count
+                $count_rows = mysqli_num_rows($res);
+
+                if($count_rows > 0) {
+                    // if tasks on the list
+                    while($row = mysqli_fetch_assoc($res)) {
+                        $task_id = $row['task_id'];
+                        $task_name = $row['task_name'];
+                        $priority = $row['priority'];
+                        $deadline = $row['deadline'];
+                        ?>
+
+                        <tr>
+                            <td>1. </td>
+                            <td><?php echo $task_name; ?></td>
+                            <td><?php echo $priority; ?></td>
+                            <td><?php echo $deadline; ?></td>
+                            <td>
+                            <a class="action-button" href="<?php echo SITEURL; ?>update-task.php?task_id=<?php echo $task_id; ?>">
+    <img src="update_icon.png" alt="Update">
+</a>
+<a class="action-button" href="<?php echo SITEURL; ?>delete-task.php?task_id=<?php echo $task_id; ?>">
+    <img src="delete_icon.png" alt="Delete">
+</a>
+                            </td>
+                        </tr>
+
+                        <?php
+                    }
+                }
+                else {
+                    // no tasks on this list
+                    ?>
+                    <tr>
+                        <td colspan="5">No Tasks added on this list.</td>
+                    </tr>
+                    <?php
+                }
+            }
+            ?>
+        </table>
+    </div>
+
+</div>
+</body>
+
+</html>
